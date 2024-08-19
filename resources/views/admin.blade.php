@@ -30,17 +30,17 @@
                 <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
                     <ul class="navbar-nav" style="margin-right: 40px;">
                         <li class="nav-item me-3">
-                            <a wire:navigate class="nav-link text-white" href="">
+                            <a class="nav-link text-white" href="{{ route('produtos.index') }}">
                                 Produtos
                             </a>
                         </li>
                         <li class="nav-item me-3">
-                            <a wire:navigate class="nav-link text-white" href="">
+                            <a class="nav-link text-white" href="{{ route('categorias.index') }}">
                                 Categorias
                             </a>
                         </li>
                         <li class="nav-item me-3">
-                            <a wire:navigate class="nav-link text-white" href="">
+                            <a class="nav-link text-white" href="">
                                 Relatorio de Vendas
                             </a>
                         </li>

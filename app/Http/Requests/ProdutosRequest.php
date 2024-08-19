@@ -24,7 +24,7 @@ class ProdutosRequest extends FormRequest
         return [
             'nome' => 'required|string|max:60',    
             'imagem' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
-            'valor' => 'required',
+            'valor' => 'required|numeric',
             'categoria_id' => 'required|exists:categorias,id',
             'quantidade' => 'required|integer|digits_between:1,6|max:999999'
         ];

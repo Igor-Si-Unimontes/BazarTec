@@ -1,12 +1,22 @@
 <?php
 
+use App\Http\Controllers\CategoriasController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProdutosController;
+use App\Models\Categorias;
 
 Route::get('/', [ProdutosController::class , 'index'])->name('produtos.index');
 Route::get('/cadastrar', [ProdutosController::class, 'create'])->name('produtos.cadastrar');
-Route::post('/store', [ProdutosController::class, 'store'])->name('produtos.store');
-Route::get('/atualizar/{id}', [ProdutosController::class, 'edit'])->name('produtos.edit');
-Route::post('/update/{id}', [ProdutosController::class, 'update'])->name('produtos.update');
-Route::get('/visualizar/{id}', [ProdutosController::class, 'show'])->name('produtos.show');
+Route::post('/store-produtos', [ProdutosController::class, 'store'])->name('produtos.store');
+Route::get('/atualizar-produtos/{id}', [ProdutosController::class, 'edit'])->name('produtos.edit');
+Route::post('/update-produtos/{id}', [ProdutosController::class, 'update'])->name('produtos.update');
+Route::get('/visualizar-produtos/{id}', [ProdutosController::class, 'show'])->name('produtos.show');
 Route::delete('/produtos/{id}', [ProdutosController::class, 'destroy'])->name('produtos.destroy');
+Route::get('/categorias', [CategoriasController::class , 'index'])->name('categorias.index');
+Route::get('/cadastrar-categoria', [CategoriasController::class, 'create'])->name('categorias.cadastrar');
+Route::post('/store-categorias', [CategoriasController::class, 'store'])->name('categorias.store');
+Route::get('/atualizar-categoria/{id}', [CategoriasController::class, 'edit'])->name('categorias.edit');
+Route::post('/update-categorias/{id}', [CategoriasController::class, 'update'])->name('categorias.update');
+Route::get('/visualizar-categorias/{id}', [CategoriasController::class, 'show'])->name('categorias.show');
+Route::delete('/categorias/{id}', [CategoriasController::class, 'destroy'])->name('categorias.destroy');
+

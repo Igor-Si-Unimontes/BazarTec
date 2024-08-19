@@ -25,7 +25,7 @@
             </div>
             <div class="form-group mt-3">
                 <label for="valor">Valor do Produto</label>
-                <input type="number" class="form-control mt-2" required name="valor" id="valor">
+                <input type="number" class="form-control mt-2" required name="valor" id="valor" step="0.01">
             </div>
             <div class="form-group mt-3">
                 <label for="categoria_id">Categoria do Produto</label>
