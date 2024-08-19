@@ -1,5 +1,14 @@
 @extends('admin')
 @section('content')
+@if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
 <div class="row justify-content-md-center bg-light ">
     <div class="col-sm-10 rounded bg-white p-3 m-1 border mt-5 p-md-5">
         <h2>Cadastrar Produtos</h2>
@@ -12,7 +21,7 @@
 
             <div class="mt-3">
                 <label for="inputGroupFile02" class="form-label">Imagem do Produto</label>
-                <input type="file" class="form-control" id="imagem" name="imagem">
+                <input type="file" class="form-control" id="imagem" name="imagem" required>
             </div>
             <div class="form-group mt-3">
                 <label for="valor">Valor do Produto</label>

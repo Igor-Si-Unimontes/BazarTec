@@ -1,5 +1,14 @@
 @extends('admin')
 @section('content')
+@if ($errors->any())
+    <div class="alert alert-danger">
+        <ul>
+            @foreach ($errors->all() as $error)
+                <li>{{ $error }}</li>
+            @endforeach
+        </ul>
+    </div>
+@endif
 <div class="row justify-content-md-center bg-light ">
     <div class="col-sm-10 rounded bg-white p-3 m-1 border mt-5 p-md-5">
         <h2>Editar Produtos</h2>

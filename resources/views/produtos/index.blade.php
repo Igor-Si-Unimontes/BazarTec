@@ -1,5 +1,6 @@
 @extends('admin');
 @section('content')
+@include('mensagens.mensagem')
     <div>
         <div class="row justify-content-center bg-light py-4">
             <div class="col-lg-8 col-md-10 col-12 rounded bg-white py-4 border">
@@ -52,81 +53,81 @@
                         <td class="text-center align-middle">{{ $produto->categoria->nome }}</td>
                         <td class="text-center align-middle">{{ $produto->quantidade }}</td>
                         <td class="py-0 px-0 align-middle">
-                            <a class="btn btn-primary w-100 rounded-0" href="#" data-bs-toggle="modal" data-bs-target="#viewProductModal" title="Visualizar produto" style="padding: 10px;">
+                            <a class="btn btn-primary w-100 rounded-0" href="{{ route('produtos.show', $produto->id) }}" data-bs-toggle="modal" data-bs-target="#viewProductModal{{ $produto->id }}" title="Visualizar produto" style="padding: 10px;">
                                 <i class="far fa-eye"></i>
                             </a>
-                        </td>
+                        </td>                        
                         <td class="py-0 px-0 align-middle">
                             <a class="btn btn-warning w-100 rounded-0" href="{{ route('produtos.edit', $produto->id) }}" data-toggle="tooltip" data-placement="left" title="Editar produto" style="padding: 10px;">
                                 <i class="far fa-edit"></i>
                             </a>
                         </td>                        
                         <td class="py-0 px-0 align-middle">
-                            <button type="button" class="btn btn-danger w-100 rounded-0" style="padding: 10px;" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal">
+                            <button type="button" class="btn btn-danger w-100 rounded-0" style="padding: 10px;" data-bs-toggle="modal" data-bs-target="#confirmDeleteModal{{ $produto->id }}">
                                 <i class="far fa-trash-alt"></i>
                             </button>
                         </td>
                     </tr>
-                            <div class="modal fade" id="confirmDeleteModal" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
-            <div class="modal-dialog modal-dialog-centered"">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="confirmDeleteModalLabel">Confirmar Exclusão</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        Tem certeza que deseja excluir este produto?
-                    </div>
-                    <div class="modal-footer">
-                        <form action="{{ route('produtos.destroy', $produto->id) }}" method="post" class="m-0">
-                            @csrf
-                            @method('delete')
-                            <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">Cancelar</button>
-                            <button type="submit" class="btn btn-danger" id="confirmDeleteButton">Excluir</button>
-                        </form>
-                    </div>                    
+                    <div class="modal fade" id="confirmDeleteModal{{ $produto->id }}" tabindex="-1" aria-labelledby="confirmDeleteModalLabel" aria-hidden="true">
+                        <div class="modal-dialog modal-dialog-centered">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="confirmDeleteModalLabel">Confirmar Exclusão</h5>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                </div>
+                                <div class="modal-body">
+                                    Tem certeza que deseja excluir este produto?
+                                </div>
+                                <div class="modal-footer">
+                                    <form action="{{ route('produtos.destroy', $produto->id) }}" method="post" class="m-0">
+                                        @csrf
+                                        @method('delete')
+                                        <button type="button" class="btn btn-secondary me-2" data-bs-dismiss="modal">Cancelar</button>
+                                        <button type="submit" class="btn btn-danger">Excluir</button>
+                                    </form>
+                                </div>                    
+                            </div>
+                        </div>
                 </div>
-            </div>
-        </div>  
-        <div class="modal fade" id="viewProductModal" tabindex="-1" aria-labelledby="viewProductModalLabel" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title" id="viewProductModalLabel">Detalhes do Produto</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div class="modal-body">
-                        <div class="form-group mt-3">
-                            <label for="nome">Nome do Produto</label>
-                            <p class="form-control mt-2" id="nome">{{ $produto->nome }}</p>
+                <div class="modal fade" id="viewProductModal{{ $produto->id }}" tabindex="-1" aria-labelledby="viewProductModalLabel{{ $produto->id }}" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="viewProductModalLabel{{ $produto->id }}">Detalhes do Produto</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="form-group mt-3">
+                                    <label for="nome{{ $produto->id }}">Nome do Produto</label>
+                                    <p class="form-control mt-2" id="nome{{ $produto->id }}">{{ $produto->nome }}</p>
+                                </div>
+                
+                                <div class="mt-3">
+                                    <label for="imagem{{ $produto->id }}" class="form-label">Imagem do Produto</label></br>
+                                    <img src="/img/events/{{ $produto->imagem }}" alt="" class="mb-3" style="width: 100px; height: 100px; object-fit: cover;">
+                                </div>
+                                
+                                <div class="form-group mt-3">
+                                    <label for="valor{{ $produto->id }}">Valor do Produto</label>
+                                    <p class="form-control mt-2" id="valor{{ $produto->id }}">{{ $produto->valor }}</p>
+                                </div>
+                
+                                <div class="form-group mt-3">
+                                    <label for="categoria_id{{ $produto->id }}">Categoria do Produto</label>
+                                    <p class="form-control mt-2" id="categoria_id{{ $produto->id }}">{{ $produto->categoria->nome }}</p>
+                                </div>            
+                                
+                                <div class="form-group mt-3">
+                                    <label for="quantidade{{ $produto->id }}">Quantidades em estoque</label>
+                                    <p class="form-control mt-2" id="quantidade{{ $produto->id }}">{{ $produto->quantidade }}</p>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                            </div>
                         </div>
-        
-                        <div class="mt-3">
-                            <label for="imagem" class="form-label">Imagem do Produto</label></br>
-                            <img src="/img/events/{{ $produto->imagem }}" alt="" class="mb-3" style="width: 100px; height: 100px; object-fit: cover;">
-                        </div>
-                        
-                        <div class="form-group mt-3">
-                            <label for="valor">Valor do Produto</label>
-                            <p class="form-control mt-2" id="valor">{{ $produto->valor }}</p>
-                        </div>
-        
-                        <div class="form-group mt-3">
-                            <label for="categoria_id">Categoria do Produto</label>
-                            <p class="form-control mt-2" id="categoria_id">{{ $produto->categoria->nome }}</p>
-                        </div>            
-                        
-                        <div class="form-group mt-3">
-                            <label for="quantidade">Quantidades em estoque</label>
-                            <p class="form-control mt-2" id="quantidade">{{ $produto->quantidade }}</p>
-                        </div>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
                     </div>
                 </div>
-            </div>
-        </div>
                     @endforeach
                 </tbody>
             </table>

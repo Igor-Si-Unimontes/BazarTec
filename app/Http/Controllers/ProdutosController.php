@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProdutosRequest;
 use App\Models\Categorias;
 use App\Models\Produtos;
 use Illuminate\Http\Request;
@@ -30,7 +31,7 @@ class ProdutosController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(ProdutosRequest $request)
     {
         $produtos = new Produtos();
         $produtos->nome = $request->nome;
@@ -42,10 +43,10 @@ class ProdutosController extends Controller
             $produtos->imagem = $imagemNome;
         }
         $produtos->valor = $request->valor;
-        $produtos->categoria_id = !empty($request->categoria_id) ? $request->categoria_id : null;
+        $produtos->categoria_id = $request->categoria_id;
         $produtos->quantidade = $request->quantidade;
         $produtos->save();
-        return redirect()->route('produtos.index')->with('success', 'Produto atualizado com sucesso!');
+        return redirect()->route('produtos.index')->with('success', 'Produto criado com sucesso!');
     }
 
     /**
@@ -76,7 +77,7 @@ class ProdutosController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(ProdutosRequest $request, string $id)
     {
         $produtos = Produtos::find($id);
         if (!$produtos) {
