@@ -49,7 +49,7 @@
                         <td class="text-center align-middle">
                             <img src="/img/events/{{ $produto->imagem }}" alt="" class="rounded-circle" style="width: 50px; height: 50px; object-fit: cover;">
                         </td>
-                        <td class="text-center align-middle">{{ $produto->valor }}</td>
+                        <td class="text-center align-middle">R${{ $produto->valor }}</td>
                         <td class="text-center align-middle">{{ $produto->categoria->nome }}</td>
                         <td class="text-center align-middle">{{ $produto->quantidade }}</td>
                         <td class="py-0 px-0 align-middle">

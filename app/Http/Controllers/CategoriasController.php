@@ -95,7 +95,9 @@ class CategoriasController extends Controller
     public function destroy(string $id)
     {
         $categoria = Categorias::find($id);
-
+        if ($categoria->produtos()->count() > 0) {
+            return redirect()->back()->with('error', 'Não é possível excluir esta categoria, pois existem produtos vinculados a ela.');
+        }
         if ($categoria) {
             if ($categoria->icone) {
                 $imagePath = public_path('img/icon/' . $categoria->icone);

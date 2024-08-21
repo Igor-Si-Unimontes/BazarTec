@@ -124,4 +124,16 @@ class ProdutosController extends Controller
             return redirect()->route('produtos.index')->with('error', 'Produto não encontrado.');
         }
     }
+    public function getProduto($id)
+    {
+        $produto = Produtos::find($id);
+        if ($produto) {
+            return response()->json([
+                'valor' => $produto->valor,
+            ]);
+        }
+        return response()->json(['error' => 'Produto não encontrado'], 404);
+    }
+    
+
 }

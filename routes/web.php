@@ -3,6 +3,7 @@
 use App\Http\Controllers\CategoriasController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProdutosController;
+use App\Http\Controllers\VendaController;
 use App\Models\Categorias;
 
 Route::get('/', [ProdutosController::class , 'index'])->name('produtos.index');
@@ -19,4 +20,8 @@ Route::get('/atualizar-categoria/{id}', [CategoriasController::class, 'edit'])->
 Route::post('/update-categorias/{id}', [CategoriasController::class, 'update'])->name('categorias.update');
 Route::get('/visualizar-categorias/{id}', [CategoriasController::class, 'show'])->name('categorias.show');
 Route::delete('/categorias/{id}', [CategoriasController::class, 'destroy'])->name('categorias.destroy');
+
+Route::get('/vendas', [VendaController::class, 'index'])->name('vendas.index');
+Route::get('/produtos/{id}', [ProdutosController::class, 'getProduto']);
+
 

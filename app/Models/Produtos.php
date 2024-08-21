@@ -20,4 +20,10 @@ class Produtos extends Model
     {
         return $this->belongsTo(Categorias::class, 'categoria_id');
     }
+    public function vendas()
+    {
+        return $this->belongsToMany(Venda::class, 'produto_venda')
+                    ->withPivot('quantidade', 'valor_unitario', 'valor_total')
+                    ->withTimestamps();
+    }
 }

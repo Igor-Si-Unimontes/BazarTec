@@ -40,8 +40,8 @@
                             </a>
                         </li>
                         <li class="nav-item me-3">
-                            <a class="nav-link text-white" href="">
-                                Relatorio de Vendas
+                            <a class="nav-link text-white" href="{{ route('vendas.index') }}">
+                                Vendas
                             </a>
                         </li>
                     </ul>
