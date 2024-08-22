@@ -1,12 +1,14 @@
 <?php
 
 use App\Http\Controllers\CategoriasController;
+use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProdutosController;
 use App\Http\Controllers\VendaController;
 use App\Models\Categorias;
 
-Route::get('/', [ProdutosController::class , 'index'])->name('produtos.index');
+Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/produtos', [ProdutosController::class , 'index'])->name('produtos.index');
 Route::get('/cadastrar', [ProdutosController::class, 'create'])->name('produtos.cadastrar');
 Route::post('/store-produtos', [ProdutosController::class, 'store'])->name('produtos.store');
 Route::get('/atualizar-produtos/{id}', [ProdutosController::class, 'edit'])->name('produtos.edit');
@@ -23,5 +25,6 @@ Route::delete('/categorias/{id}', [CategoriasController::class, 'destroy'])->nam
 
 Route::get('/vendas', [VendaController::class, 'index'])->name('vendas.index');
 Route::get('/produtos/{id}', [ProdutosController::class, 'getProduto']);
+Route::post('/store-vendas', [VendaController::class, 'store'])->name('vendas.store');
 
 

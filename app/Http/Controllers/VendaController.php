@@ -5,6 +5,9 @@ use App\Models\Venda;
 use App\Models\Produtos;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Log;
+
 
 class VendaController extends Controller
 {
@@ -30,56 +33,74 @@ class VendaController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
+        $produtos = json_decode($request->input('produtos'), true);
+
+        Log::info('Produtos recebidos:', ['produtos' => $produtos]);
+    
+        Validator::make(['produtos' => $produtos], [
             'produtos' => 'required|array',
             'produtos.*.id' => 'required|exists:produtos,id',
             'produtos.*.quantidade' => 'required|integer|min:1',
-        ]);
-
-        $valorTotalVenda = 0;
-        $quantidadeTotalProdutos = 0;
-
+            'produtos.*.valor_unitario' => 'required|numeric|min:0.01',
+            'produtos.*.valor_total' => 'required|numeric|min:0.01',
+        ])->validate();
+    
         DB::beginTransaction();
-
+    
         try {
             $venda = Venda::create([
                 'valor_total' => 0,
                 'quantidade_total' => 0,
             ]);
-
-            foreach ($request->produtos as $produtoRequest) {
+    
+            Log::info('Venda criada:', ['venda' => $venda]);
+    
+            $valorTotalVenda = 0;
+            $quantidadeTotalProdutos = 0;
+    
+            foreach ($produtos as $produtoRequest) {
                 $produto = Produtos::find($produtoRequest['id']);
-
+    
+                Log::info('Produto encontrado:', ['produto' => $produto]);
+    
                 if ($produto->quantidade < $produtoRequest['quantidade']) {
-                    return redirect()->back()->with('error', "Estoque insuficiente para o produto: {$produto->nome}");
+                    DB::rollBack();
+                    return redirect()->back()->with('error', "Estoque insuficiente para o produto: {$produto->nome}, quantidades restantes: {$produto->quantidade}");
                 }
-
-                $valorUnitario = $produto->valor;
-                $quantidade = $produtoRequest['quantidade'];
-                $valorTotalProduto = $valorUnitario * $quantidade;
-
-                $produto->decrement('quantidade', $quantidade);
-
+    
+                $produto->decrement('quantidade', $produtoRequest['quantidade']);
+    
                 $venda->produtos()->attach($produto->id, [
-                    'quantidade' => $quantidade,
-                    'valor_unitario' => $valorUnitario,
-                    'valor_total' => $valorTotalProduto,
+                    'quantidade' => $produtoRequest['quantidade'],
+                    'valor_unitario' => $produtoRequest['valor_unitario'],
+                    'valor_total' => $produtoRequest['valor_total'],
                 ]);
-
-                $valorTotalVenda += $valorTotalProduto;
-                $quantidadeTotalProdutos += $quantidade;
+    
+                Log::info('Produto adicionado à venda:', [
+                    'venda_id' => $venda->id,
+                    'produto_id' => $produto->id,
+                    'quantidade' => $produtoRequest['quantidade'],
+                    'valor_unitario' => $produtoRequest['valor_unitario'],
+                    'valor_total' => $produtoRequest['valor_total']
+                ]);
+    
+                $valorTotalVenda += $produtoRequest['valor_total'];
+                $quantidadeTotalProdutos += $produtoRequest['quantidade'];
             }
-
+    
             $venda->update([
                 'valor_total' => $valorTotalVenda,
                 'quantidade_total' => $quantidadeTotalProdutos,
             ]);
-
+    
+            Log::info('Venda atualizada:', ['venda' => $venda]);
+    
             DB::commit();
-
+    
             return redirect()->route('vendas.index')->with('success', 'Venda realizada com sucesso!');
         } catch (\Exception $e) {
             DB::rollBack();
+            Log::error('Erro ao processar a venda:', ['error' => $e->getMessage()]);
             return redirect()->back()->with('error', 'Erro ao processar a venda: ' . $e->getMessage());
         }
     }

@@ -10,9 +10,13 @@ class ProdutoVenda extends Pivot
 
     protected $fillable = [
         'venda_id',
-        'produto_id',
+        'produtos_id',
         'quantidade',
         'valor_unitario',
         'valor_total',
     ];
+    public function produto()
+    {
+        return $this->belongsTo(Produtos::class, 'produtos_id');
+    }
 }

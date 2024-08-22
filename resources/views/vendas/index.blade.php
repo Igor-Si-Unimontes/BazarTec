@@ -103,6 +103,37 @@ function buscarProduto(produtoId) {
         atualizarValorTotalGeral(-valorTotalRemovido);
     }
 </script>
+<script>
+ function finalizarVenda() {
+    const produtos = [];
+
+    $('#tabela_produtos tr').each(function() {
+        const produtoId = $(this).find('td:nth-child(1)').text().trim();
+        const quantidade = parseFloat($(this).find('td:nth-child(4)').text().trim());
+        const valorUnitario = parseFloat($(this).find('td:nth-child(3)').text().replace('R$', '').trim());
+        const valorTotal = parseFloat($(this).find('td:nth-child(5)').text().replace('R$', '').trim());
+
+        if (produtoId && quantidade > 0 && valorUnitario > 0) {
+            produtos.push({
+                id: produtoId,
+                quantidade: quantidade,
+                valor_unitario: valorUnitario,
+                valor_total: valorTotal
+            });
+        }
+    });
+
+    $('#produtos_json').val(JSON.stringify(produtos));
+
+    if (produtos.length === 0) {
+        alert('Adicione ao menos um produto para finalizar a venda.');
+        return;
+    }
+
+    document.getElementById('finaliza').submit();
+}
+</script>
+@include('mensagens.mensagem')
     <div class="row justify-content-md-center bg-light">
 
         <div class="col-sm-12 rounded bg-white p-3 m-1 border">
@@ -132,11 +163,6 @@ function buscarProduto(produtoId) {
                     <form action="" method="post" id="form-add-produto" class="w-100">
                         @csrf
                         @method('post')
-                        <input type="hidden" name="pedidos_id" value="">
-                        <input type="hidden" name="clientes_id" value="">
-                        <input type="hidden" id="produtos_id" name="produtos_id" value="">
-                        <input type="hidden" id="cliente_possui_casco" name="cliente_possui_casco" value="">
-                        <input type="hidden" id="produto_is_retornavel" name="produto_is_retornavel" value="">
                         <div class="row">
                             <div class="row d-flex justify-content-center">
                                 <div class="col-sm-4">
@@ -204,29 +230,20 @@ function buscarProduto(produtoId) {
                     </div>
                 </div>
             </div>
+
+            <form action="{{ route('vendas.store') }}" method="post" id="finaliza" name="finaliza">
+                @csrf
+                @method('post')
             
-
-            <form action="" name="finalizar_pedido" id="finalizar_pedido"
-                method="post">
-                <input type="hidden" name="status" value="1">
-                            <!-- tinha um else aqui --> 
-
-                <form action="" method="post" id="finaliza"
-                    name="finaliza">
-                                <!-- tinha um endif aqui --> 
-
-        @csrf
-        @method('put')
-
-        <div class="row">
-            <div class="col-sm-12 d-flex justify-content-center">
-
-                    <button class="btn btn-success rounded-0"  disabled >Confirmar
-                        Venda
-                    </button>
-            </div>
-        </div>
-        </form>
+                <input type="hidden" name="produtos" id="produtos_json">
+            
+                <div class="row">
+                    <div class="col-sm-12 d-flex justify-content-center">
+                        <button type="button" class="btn btn-success rounded-0" onclick="finalizarVenda()">Confirmar Venda</button>
+                    </div>
+                </div>
+            </form>
+            
     </div>
     </div>
 @endsection

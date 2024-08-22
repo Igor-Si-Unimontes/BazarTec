@@ -19,7 +19,7 @@
 <body>
     <div id="full-app-container">
         <nav class="navbar navbar-expand-lg navbar-light bg-primary ">
-            <a wire:navigate class="navbar-brand" href="">
+            <a wire:navigate class="navbar-brand" href="{{ route('home') }}">
                 <img src="{{ asset('img/favicon-Loja.png') }}" style="margin-left: 40px;">
             </a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
@@ -29,6 +29,11 @@
             <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
                 <div class="collapse navbar-collapse justify-content-end" id="navbarSupportedContent">
                     <ul class="navbar-nav" style="margin-right: 40px;">
+                        <li class="nav-item me-3">
+                            <a class="nav-link text-white" href="{{ route('home') }}">
+                                Home
+                            </a>
+                        </li>
                         <li class="nav-item me-3">
                             <a class="nav-link text-white" href="{{ route('produtos.index') }}">
                                 Produtos
