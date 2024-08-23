@@ -5,23 +5,23 @@
         <div class="row">
             <div class="col bg bg-primary p-4 me-3 rounded">
                 <img src="{{ asset('img/cart.svg') }}" alt="" height="40px" width="40px">
-                <h3 class="text-white">30 Vendas</h3>
+                <h3 class="text-white">{{ $vendasTotais }} Vendas</h3>
                 <p class="text-white">Quantidade de vendas realizadas neste mês</p>
             </div>
             <div class="col bg bg-success p-4 me-3 rounded">
                 <img src="{{ asset('img/money.svg') }}" alt="" height="40px" width="40px">
-                <h3 class="text-white">R$ 30 Faturados</h3>
+                <h3 class="text-white">R$ {{ $faturados }}</h3>
                 <p class="text-white">Valor faturado no mês</p>
             </div>
             <div class="col bg bg-warning p-4 me-3 rounded">
                 <img src="{{ asset('img/product.svg') }}" alt="" height="40px" width="40px">
-                <h3 class="text-white">30 Produtos</h3>
+                <h3 class="text-white">{{  $totalProdutosVendidos }} Produtos</h3>
                 <p class="text-white">Quantidade de produtos vendidos neste mês</p>
             </div>
             <div class="col bg bg-danger p-4 me-3 rounded">
                 <img src="{{ asset('img/stock.svg') }}" alt="" height="40px" width="40px">
-                <h3 class="text-white">30 Produtos</h3>
-                <p class="text-white">Quantidade de produtos com baixo estoque</p>
+                <h3 class="text-white">{{ $estoqueBaixo }} Produtos</h3>
+                <p class="text-white">Quantidade de produtos com baixo estoque (Abaixo de 10 unidades)</p>
             </div>
         </div>
     </div>
@@ -50,5 +50,42 @@
                 @endforeach
             </tbody>
         </table>
+    </div>
+    <div class="d-flex justify-content-center mt-4">
+        <nav>
+            <ul class="pagination">
+                @if ($vendas->onFirstPage())
+                    <li class="page-item disabled">
+                        <span class="page-link">Anterior</span>
+                    </li>
+                @else
+                    <li class="page-item">
+                        <a class="page-link" href="{{ $vendas->previousPageUrl() }}" rel="prev">Anterior</a>
+                    </li>
+                @endif
+    
+                @foreach ($vendas->getUrlRange(1, $vendas->lastPage()) as $page => $url)
+                    @if ($page == $vendas->currentPage())
+                        <li class="page-item active">
+                            <span class="page-link">{{ $page }}</span>
+                        </li>
+                    @else
+                        <li class="page-item">
+                            <a class="page-link" href="{{ $url }}">{{ $page }}</a>
+                        </li>
+                    @endif
+                @endforeach
+    
+                @if ($vendas->hasMorePages())
+                    <li class="page-item">
+                        <a class="page-link" href="{{ $vendas->nextPageUrl() }}" rel="next">Próximo</a>
+                    </li>
+                @else
+                    <li class="page-item disabled">
+                        <span class="page-link">Próximo</span>
+                    </li>
+                @endif
+            </ul>
+        </nav>
     </div>
 @endsection

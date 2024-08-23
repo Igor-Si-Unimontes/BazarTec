@@ -5,7 +5,6 @@ use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProdutosController;
 use App\Http\Controllers\VendaController;
-use App\Models\Categorias;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/produtos', [ProdutosController::class , 'index'])->name('produtos.index');

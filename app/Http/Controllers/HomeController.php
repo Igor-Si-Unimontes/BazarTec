@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Produtos;
 use App\Models\ProdutoVenda;
+use App\Models\Venda;
 use Illuminate\Http\Request;
 
 class HomeController extends Controller
@@ -12,8 +14,16 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $vendas = ProdutoVenda::with('produto')->get();
-        return view('home',  ['vendas' => $vendas]);
+        $dataInicio = now()->subDays(30);
+        $totalProdutosVendidos = ProdutoVenda::whereBetween('created_at', [$dataInicio, now()])->sum('quantidade');
+        $faturados = Venda::whereBetween('created_at', [$dataInicio, now()])->sum('valor_total');
+        $vendasTotais = Venda::whereBetween('created_at', [$dataInicio, now()])->count('id');
+        $estoqueBaixo = Produtos::where('quantidade', '<', 10)->count();
+        $vendas = ProdutoVenda::with('produto')
+        ->whereBetween('created_at', [$dataInicio, now()])
+        ->paginate(10);
+        return view('home',  ['vendas' => $vendas ,'totalProdutosVendidos' => $totalProdutosVendidos, 'faturados' => $faturados,
+        'vendasTotais' => $vendasTotais, 'estoqueBaixo' => $estoqueBaixo]);
     }
 
     /**
