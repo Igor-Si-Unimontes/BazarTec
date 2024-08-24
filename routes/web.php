@@ -4,6 +4,7 @@ use App\Http\Controllers\CategoriasController;
 use App\Http\Controllers\HomeController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProdutosController;
+use App\Http\Controllers\ProdutoVendaController;
 use App\Http\Controllers\VendaController;
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
@@ -25,5 +26,10 @@ Route::delete('/categorias/{id}', [CategoriasController::class, 'destroy'])->nam
 Route::get('/vendas', [VendaController::class, 'index'])->name('vendas.index');
 Route::get('/produtos/{id}', [ProdutosController::class, 'getProduto']);
 Route::post('/store-vendas', [VendaController::class, 'store'])->name('vendas.store');
+
+Route::get('/vendas/download-pdf', [ProdutoVendaController::class, 'downloadPdf'])->name('vendas.downloadPdf');
+Route::get('/vendas/buscar', [ProdutoVendaController::class, 'buscarVendaProduto'])->name('vendas.buscar');
+Route::post('/vendas/pdf-produto', [ProdutoVendaController::class, 'PdfProduto'])->name('vendas.PdfProduto');
+
 
 

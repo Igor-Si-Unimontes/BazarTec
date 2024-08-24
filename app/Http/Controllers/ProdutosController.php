@@ -6,6 +6,8 @@ use App\Http\Requests\ProdutosRequest;
 use App\Models\Categorias;
 use App\Models\Produtos;
 use Illuminate\Http\Request;
+use Barryvdh\DomPDF\Facade\Pdf;
+use Illuminate\Support\Facades\Log;
 
 class ProdutosController extends Controller
 {
@@ -134,6 +136,20 @@ class ProdutosController extends Controller
         }
         return response()->json(['error' => 'Produto não encontrado'], 404);
     }
-    
-
+    public function downloadPdfProduto()
+    {
+        try {
+            $produtos = Produtos::all();
+            
+            if ($produtos->isEmpty()) {
+                return response()->json(['error' => 'Nenhum produto encontrado'], 404);
+            }
+        
+            $pdf = PDF::loadView('relatorios.produtos', compact('produtos'));
+        
+            return $pdf->download('relatorio-todos-produtos.pdf');
+        } catch (\Exception $e) {
+            return response()->json(['error' => 'Erro ao gerar PDF: ' . $e->getMessage()], 500);
+        }
+    }
 }

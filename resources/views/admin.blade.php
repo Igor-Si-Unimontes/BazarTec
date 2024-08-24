@@ -15,6 +15,15 @@
     <link href="{{ asset('css/bazar.css') }}" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&display=swap" rel="stylesheet">
     @livewireStyles
+    <style>
+        .dropdown-menu {
+            margin-left: -10px;
+            transform: translateX(-50%);
+            position: absolute;
+            left: 0;
+            right: auto;
+        }
+    </style>
 </head>
 <body>
     <div id="full-app-container">
@@ -49,6 +58,16 @@
                                 Vendas
                             </a>
                         </li>
+                        <li class="nav-item dropdown me-3">
+                            <a class="nav-link dropdown-toggle text-white" href="#" id="relatoriosDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                Relatórios
+                            </a>
+                            <div class="dropdown-menu" aria-labelledby="relatoriosDropdown">
+                                <a class="dropdown-item" href="{{ route('vendas.downloadPdf') }}">Relatório Geral de Vendas</a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="{{ route('vendas.buscar') }}">Buscar Vendas por Produto</a>
+                            </div>
+                        </li>
                     </ul>
                 </div>
             </div>
@@ -58,5 +77,8 @@
         </div>
     </div>
     @livewireScripts
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     </body>
 </html>
