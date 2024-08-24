@@ -21,6 +21,7 @@ class HomeController extends Controller
         $estoqueBaixo = Produtos::where('quantidade', '<', 10)->count();
         $vendas = ProdutoVenda::with('produto')
         ->whereBetween('created_at', [$dataInicio, now()])
+        ->orderBy('created_at', 'desc')
         ->paginate(10);
         return view('home',  ['vendas' => $vendas ,'totalProdutosVendidos' => $totalProdutosVendidos, 'faturados' => $faturados,
         'vendasTotais' => $vendasTotais, 'estoqueBaixo' => $estoqueBaixo]);
