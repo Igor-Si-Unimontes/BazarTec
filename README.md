@@ -2,6 +2,13 @@
 
 Bem-vindo ao projeto BazarTec! Este é um sistema desenvolvido para gerenciar compras e estoque de produto.
 
+## Video de Apresentação
+
+Clique aqui no icone para assistir ao video : 
+<a href="https://youtu.be/lToZCb7yhmw">
+  <img src="https://upload.wikimedia.org/wikipedia/commons/4/42/YouTube_icon_%282013-2017%29.png" alt="YouTube" style="width:30px;height:30px;">
+</a>
+
 ## Requisitos
 
 Antes de começar, certifique-se de ter os seguintes softwares instalados em sua máquina:
